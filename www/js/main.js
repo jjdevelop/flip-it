@@ -1,21 +1,25 @@
-// var game = new Phaser.Game(400, 490, Phaser.AUTO, 'gameDiv');
-game = new Phaser.Game(window.innerWidth * window.devicePixelRatio, window.innerHeight * window.devicePixelRatio, Phaser.CANVAS, 'gameDiv');
+(function () {
+    'use strict';
+    
+    var game = new Phaser.Game(window.innerWidth * window.devicePixelRatio, window.innerHeight * window.devicePixelRatio, Phaser.CANVAS, 'gameDiv');
 
-var mainState = {
+    var mainState = {
 
-    preload: function() {
-        game.stage.backgroundColor = '#71c5cf';
-    },
+        preload: function() {
+            game.stage.backgroundColor = '#71c5cf';
+        },
 
-    create: function() {
-        game.physics.startSystem(Phaser.Physics.ARCADE);
-    },
+        create: function() {
+            game.physics.startSystem(Phaser.Physics.ARCADE);
+        },
 
-    restartGame: function() {
-        game.state.start('main');
-    },
+        restartGame: function() {
+            game.state.start('main');
+        },
 
-};
+    };
 
-game.state.add('main', mainState);
-game.state.start('main');
+    game.state.add('main', mainState);
+    game.state.start('main');
+
+})();
