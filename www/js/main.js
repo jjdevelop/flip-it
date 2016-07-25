@@ -1,4 +1,5 @@
-var game = new Phaser.Game(400, 490, Phaser.AUTO, 'gameDiv');
+// var game = new Phaser.Game(400, 490, Phaser.AUTO, 'gameDiv');
+game = new Phaser.Game(window.innerWidth * window.devicePixelRatio, window.innerHeight * window.devicePixelRatio, Phaser.CANVAS, 'gameDiv');
 
 var mainState = {
 
