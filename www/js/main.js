@@ -36,12 +36,14 @@
                 y: 0
             };
 
+            // Laying out the squares 4x6
             for (var i = 0; i < 6; i++) {
                 point.y += squareSize.height * i;
                 point.x += 0;
 
                 for (var t = 0; t < 4; t++) {
                     point.x = squareSize.width * t;
+
                     var square = game.add.sprite(point.x, point.y, 'square');
 
                     game.physics.arcade.enable(square);
@@ -66,7 +68,7 @@
                     var rand = game.rnd.realInRange(-2, 6);
 
                     //  Set the scale of the sprite to the random value
-                    square.scale.setTo(10, 10);
+                    square.scale.setTo(squareSize.width, squareSize.height);
                 }
             }
         },
