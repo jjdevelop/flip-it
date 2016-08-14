@@ -4,8 +4,12 @@
     var game = new Phaser.Game(window.innerWidth * window.devicePixelRatio, window.innerHeight * window.devicePixelRatio, Phaser.CANVAS, 'gameDiv');
 
     var cursors;
-    var square;
-    var state;
+    var currentState;
+    var State = {
+        GREEN: 'green',
+        RED: 'red'
+    };
+
 
     var mainState = {
 
@@ -18,42 +22,68 @@
         create: function() {
             game.physics.startSystem(Phaser.Physics.ARCADE);
 
-            square = game.add.sprite(0, 0, 'square');
+            // Calculate how many squares can fix on screen
+            var screenWidth = window.innerWidth;
+            var screenHeight = window.innerHeight;
 
-            game.physics.arcade.enable(square);
+            var squareSize = { 
+                width: 10,
+                height: 10
+            };
 
-            square.animations.add('red', [0], 1, false);
-            square.animations.add('green', [1], 1, false);
+            var point = {
+                x: 0,
+                y: 0
+            };
 
-            cursors = game.input.keyboard.createCursorKeys();
+            for (var i = 0; i < 6; i++) {
+                point.y += squareSize.height * i;
+                point.x += 0;
 
-            square.inputEnabled = true;
-            square.events.onInputDown.add(function() { 
-                if (state === 'green') {
-                    state = 'red';
-                    square.animations.play('red');
-                } else {
-                    state = 'green';
-                    square.animations.play('green');
+                for (var t = 0; t < 4; t++) {
+                    point.x = squareSize.width * t;
+                    var square = game.add.sprite(point.x, point.y, 'square');
+
+                    game.physics.arcade.enable(square);
+
+                    square.animations.add(State.RED, [0], 1, false);
+                    square.animations.add(State.GREEN, [1], 1, false);
+
+                    // cursors = game.input.keyboard.createCursorKeys();
+
+                    square.inputEnabled = true;
+                    square.events.onInputDown.add(function() { 
+                        if (currentState === State.GREEN) {
+                            currentState = State.RED;
+                            square.animations.play(currentState);
+                        } else {
+                            currentState = State.GREEN;
+                            square.animations.play(currentState);
+                        }
+                    });
+
+                    //  Pick a random number between -2 and 6
+                    var rand = game.rnd.realInRange(-2, 6);
+
+                    //  Set the scale of the sprite to the random value
+                    square.scale.setTo(10, 10);
                 }
-            });
+            }
+        },
+
+        update: function() {
+            // if (cursors.left.isDown) {
+            //     square.animations.play('red');
+            // } else if (cursors.right.isDown) {
+            //     square.animations.play('green');
+            // }
         },
 
         restartGame: function() {
             game.state.start('main');
-        },
-
-        update: function() {
-            if (cursors.left.isDown) {
-                square.animations.play('red');
-            } else if (cursors.right.isDown) {
-                square.animations.play('green');
-            }
         }
 
     };
-
-
 
     game.state.add('main', mainState);
     game.state.start('main');
