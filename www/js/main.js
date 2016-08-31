@@ -10,6 +10,30 @@
         RED: 'red'
     };
 
+    var createSquare = function(x, y) {
+        return function (){
+            var square = game.add.sprite(x, y, 'square');
+
+            game.physics.arcade.enable(square);
+
+            square.animations.add(State.RED, [0], 1, false);
+            square.animations.add(State.GREEN, [1], 1, false);
+
+            square.inputEnabled = true;
+            square.events.onInputDown.add(function() { 
+                if (currentState === State.GREEN) {
+                    currentState = State.RED;
+                    square.animations.play(currentState);
+                } else {
+                    currentState = State.GREEN;
+                    square.animations.play(currentState);
+                }
+            });
+
+            return square;
+        }();
+    };
+
 
     var mainState = {
 
@@ -27,8 +51,8 @@
             var screenHeight = window.innerHeight;
 
             var squareSize = { 
-                width: 10,
-                height: 10
+                width: 35,
+                height: 35
             };
 
             var point = {
@@ -36,39 +60,21 @@
                 y: 0
             };
 
+            var squares = [];
+
             // Laying out the squares 4x6
             for (var i = 0; i < 6; i++) {
-                point.y += squareSize.height * i;
-                point.x += 0;
+                point.y += squareSize.height * 1;
 
                 for (var t = 0; t < 4; t++) {
                     point.x = squareSize.width * t;
 
-                    var square = game.add.sprite(point.x, point.y, 'square');
+                    squares[t] = createSquare(point.x, point.y);
 
-                    game.physics.arcade.enable(square);
-
-                    square.animations.add(State.RED, [0], 1, false);
-                    square.animations.add(State.GREEN, [1], 1, false);
-
-                    // cursors = game.input.keyboard.createCursorKeys();
-
-                    square.inputEnabled = true;
-                    square.events.onInputDown.add(function() { 
-                        if (currentState === State.GREEN) {
-                            currentState = State.RED;
-                            square.animations.play(currentState);
-                        } else {
-                            currentState = State.GREEN;
-                            square.animations.play(currentState);
-                        }
-                    });
-
-                    //  Pick a random number between -2 and 6
-                    var rand = game.rnd.realInRange(-2, 6);
-
+                    // console.log("square", squares[t]);
+  
                     //  Set the scale of the sprite to the random value
-                    square.scale.setTo(squareSize.width, squareSize.height);
+                    // squares[t].scale.setTo(10, 10);
                 }
             }
         },
