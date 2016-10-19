@@ -8,13 +8,67 @@
         RED: 'red'
     };
 
+    var maxColNum = 4;
+    var maxRowNum = 6;
+
     var squares = [];
 
     // Calculate how many squares can fix on screen
-    var calculatedSquareWidth = window.innerWidth / 4;
-    var calculatedSquareHeight = window.innerHeight / 6;
+    var calculatedSquareWidth = window.innerWidth / maxColNum;
+    var calculatedSquareHeight = window.innerHeight / maxRowNum;
 
-    var createSquare = function(x, y) {
+    var toggleSquares = function(row, col) {
+
+        var touchingSquares = [];
+
+        var rows = [];
+        var cols = [];
+
+        if (row > 0)
+            rows.push(row - 1);
+
+        rows.push(row);
+
+        if (row < maxRowNum - 1)
+            rows.push(row + 1);
+
+
+        if (col > 0)
+            cols.push(col - 1);
+
+        cols.push(col);
+
+        if (col < maxColNum - 1)
+            cols.push(col + 1);
+
+        for (var c = 0; c < rows.length; c++) {
+
+            var currentrow = rows[c];
+
+            for (var r = 0; r < cols.length; r++) {
+
+                var currentcol = cols[r];
+
+                // if (row != currentrow && col != currentcol) {
+                    var touchingSquare = squares[currentrow][currentcol];
+
+                    /*touchingSquares.push(touchingSquare);*/
+
+                    if (touchingSquare.currentState === State.GREEN) {
+                        touchingSquare.currentState = State.RED;
+                        touchingSquare.animations.play(touchingSquare.currentState);
+                    } else {
+                        touchingSquare.currentState = State.GREEN;
+                        touchingSquare.animations.play(touchingSquare.currentState);
+                    }
+                // }
+
+            }
+        }
+    };
+
+
+    var createSquare = function(x, y, row, col) {
         var currentState;
 
         return function() {
@@ -29,13 +83,18 @@
             square.events.onInputDown.add(function() {
                 console.log("Inner Width:" + window.innerWidth);
                 console.log("Inner Height:" + window.innerHeight);
-                if (currentState === State.GREEN) {
-                    currentState = State.RED;
-                    square.animations.play(currentState);
-                } else {
-                    currentState = State.GREEN;
-                    square.animations.play(currentState);
-                }
+
+                // var touchingSquares = toggleSquares(row, col);
+
+                // if (currentState === State.GREEN) {
+                //     currentState = State.RED;
+                //     square.animations.play(currentState);
+                // } else {
+                //     currentState = State.GREEN;
+                //     square.animations.play(currentState);
+                // }
+
+                toggleSquares(row, col);
             });
 
             return square;
@@ -46,7 +105,7 @@
     var mainState = {
 
         preload: function() {
-            game.stage.backgroundColor = '#71c5cf';
+            game.stage.backgroundrowor = '#71c5cf';
 
             game.load.spritesheet('square', 'img/sprites/square.png', 32, 32);
         },
@@ -62,13 +121,16 @@
             var padding = 2;
 
             // Laying out the squares 4x6
-            for (var i = 0; i < 6; i++) {
+            for (var i = 0; i < maxRowNum; i++) {
                 point.y = (calculatedSquareHeight + padding) * i;
 
-                for (var t = 0; t < 4; t++) {
+                squares[i] = [];
+
+                for (var t = 0; t < maxColNum; t++) {
                     point.x = (calculatedSquareWidth + padding) * t;
-                    var square = createSquare(point.x, point.y);
-                    squares.push(square);
+                    var square = createSquare(point.x, point.y, i, t);
+                    squares[i][t] = square;
+                    // squares.push(square);
                 }
             }
         },
@@ -76,13 +138,23 @@
         update: function() {
             // Updating width and height
             // TODO need to also update position
-            // calculatedSquareWidth = window.innerWidth / 4;
-            // calculatedSquareHeight = window.innerHeight / 6;
+            // calculatedSquareWidth = window.innerWidth / maxColNum;
+            // calculatedSquareHeight = window.innerHeight / maxRowNum;
 
-            squares.forEach(function(square) {
-                //  Set the scale of the sprite to the random value
-                square.scale.setTo(calculatedSquareWidth / 32, calculatedSquareHeight / 32);
-            });
+            /*            squares.forEach(function(square) {
+                            //  Set the scale of the sprite to the random value
+                            square.scale.setTo(calculatedSquareWidth / 32, calculatedSquareHeight / 32);
+                        });*/
+
+            for (var i = 0; i < maxRowNum; i++) {
+
+                for (var t = 0; t < maxColNum; t++) {
+
+                    var square = squares[i][t];
+
+                    square.scale.setTo(calculatedSquareWidth / 32, calculatedSquareHeight / 32);
+                }
+            }
         },
 
         restartGame: function() {
