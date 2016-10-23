@@ -1,7 +1,9 @@
 (function() {
     'use strict';
 
-    var game = new Phaser.Game(window.innerWidth * window.devicePixelRatio, window.innerHeight * window.devicePixelRatio, Phaser.CANVAS, 'gameDiv');
+    var barHeight = 45;
+
+    var game = new Phaser.Game(window.innerWidth * window.devicePixelRatio, (window.innerHeight * window.devicePixelRatio) - barHeight, Phaser.CANVAS, 'gameDiv');
 
     var State = {
         GREEN: 'green',
@@ -15,7 +17,7 @@
 
     // Calculate how many squares can fix on screen
     var calculatedSquareWidth = window.innerWidth / maxColNum;
-    var calculatedSquareHeight = window.innerHeight / maxRowNum;
+    var calculatedSquareHeight = (window.innerHeight - barHeight) / maxRowNum;
 
     var toggleSquares = function(row, col) {
 
