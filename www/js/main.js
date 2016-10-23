@@ -81,10 +81,18 @@
             square.animations.add(State.RED, [0], 1, false);
             square.animations.add(State.GREEN, [1], 1, false);
 
+            var number = Math.floor((Math.random() * 100) + 1);
+
+            if (number % 2 != 0) {
+                square.currentState = State.GREEN;
+                square.animations.play(square.currentState);
+            }
+
             square.inputEnabled = true;
             square.events.onInputDown.add(function() {
                 console.log("Inner Width:" + window.innerWidth);
                 console.log("Inner Height:" + window.innerHeight);
+
 
                 // var touchingSquares = toggleSquares(row, col);
 
@@ -101,7 +109,8 @@
 
             return square;
         }();
-    };
+        };
+
 
 
     var mainState = {
