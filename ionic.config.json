@@ -1,0 +1,13 @@
+{
+  "name": "flip-it",
+  "app_id": "",
+  "gulpStartupTasks": [
+    "sass",
+    "unit-tests",
+    "watch"
+  ],
+  "watchPatterns": [
+    "www/**/*",
+    "!www/lib/**/*"
+  ]
+}
