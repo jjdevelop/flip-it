@@ -6,7 +6,7 @@
 (function () {
     'use strict';
     
-  angular.module('starter', ['ionic'])
+  angular.module('flipit', ['ionic', 'flipit.controllers'])
 
   .run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {

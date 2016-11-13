@@ -15,21 +15,25 @@ module.exports = function(config){
 
         files : [
             // required resource scripts
-            '../www/lib/**/*.js',
-
+            // '../www/lib/**/*.js',
+            '../www/lib/ionic/js/ionic.bundle.js',
+            '../www/lib/phaser/build/phaser.min.js',
+            '../www/lib/angular-mocks/angular-mocks.js',
+            
             // application scripts
-            '../www/js/*.js',
+            '../www/js/app.js',
+            '../www/js/controllers.js',
+            '../www/js/main.js',
 
             // test specification scripts
-            'unit-tests/*.js'
+            'unit-tests/**/*.js'
         ],
 
-        autoWatch : true,
-
+        singleRun: true,
+        autoWatch: false,
         frameworks: ['jasmine'],
-
-        // Chrome browser for continuous (developer) unit tests, overridden in gruntfile.js for build pipeline.
         browsers : ['Chrome'],
+        // browsers : ['PhantomJS'], // headless
 
         // Avoiding timeouts
         captureTimeout: 60000,
