@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Karma Index.html</title>
+
+    <!-- Jasmine testing code, Angular libraries, loaded from CDN here -->
+    <link href="//cdn.jsdelivr.net/jasmine/2.0.0/jasmine.css" rel="stylesheet" />
+
+    <script src="//cdn.jsdelivr.net/jasmine/2.0.0/jasmine.js"></script>
+    <script src="//cdn.jsdelivr.net/jasmine/2.0.0/jasmine-html.js"></script>
+    <script src="//cdn.jsdelivr.net/jasmine/2.0.0/boot.js"></script>
+    <script src="../../www/lib/ionic/js/ionic.bundle.js"></script>
+
+    // TODO add phaser and angular dependencies
+
+    <script src="../../www/lib/angular-mocks/angular-mocks.js"></script>
+    <script src="https://code.angularjs.org/1.4.3/angular-sanitize.js"></script>
+
+    <!-- Actual code we're testing, loaded from the web server in development -->
+    <script src="../../www/js/app.js"></script>
+    <script src="../../www/js/controllers.js"></script>
+    <script src="../../www/js/main.js"></script>
+
+</head>
+<body>
+<div class="html-reporter">
+    <h1 class="html-reporter">Unit Tests Report</h1>
+    <p>
+        Runs a small set of production tests on the top navigation components. This is for short-term
+        demonstration purposes only. Tests will be incorporated into the build system and this file
+        will not be maintained every time we change something.
+    </p>
+</div>
+
+<script src="home/home-ctrl-spec.js"></script>
+
+</body>
+</html>
