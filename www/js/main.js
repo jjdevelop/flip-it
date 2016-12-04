@@ -85,6 +85,29 @@
         }();
     };
 
+    var layoutSquares = function(height, width, padding) {
+        var modifyingSquares = [];
+        var point = {
+                x: 0,
+                y: 0
+            };
+
+        // Laying out the squares maxColNum x maxRowNum
+        for (var i = 0; i < maxRowNum; i++) {
+            point.y = (height + padding) * i;
+
+            modifyingSquares[i] = [];
+
+            for (var t = 0; t < maxColNum; t++) {
+                point.x = (width + padding) * t;
+                var square = createSquare(point.x, point.y, i, t);
+                modifyingSquares[i][t] = square;
+            }
+        }
+
+        return modifyingSquares;
+    };
+
     var mainState = {
 
         preload: function() {
@@ -95,25 +118,9 @@
         create: function() {
             game.physics.startSystem(Phaser.Physics.ARCADE);
 
-            var point = {
-                x: 0,
-                y: 0
-            };
-
             var padding = 2;
 
-            // Laying out the squares 4x6
-            for (var i = 0; i < maxRowNum; i++) {
-                point.y = (calculatedSquareHeight + padding) * i;
-
-                squares[i] = [];
-
-                for (var t = 0; t < maxColNum; t++) {
-                    point.x = (calculatedSquareWidth + padding) * t;
-                    var square = createSquare(point.x, point.y, i, t);
-                    squares[i][t] = square;
-                }
-            }
+            squares = layoutSquares(calculatedSquareHeight, calculatedSquareWidth, padding);
         },
 
         update: function() {
