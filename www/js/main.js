@@ -19,10 +19,8 @@
     var calculatedSquareWidth = window.innerWidth / maxColNum;
     var calculatedSquareHeight = (window.innerHeight - barHeight) / maxRowNum;
 
-    var toggleSquares = function(row, col) {
-
+    var toggleSquares = function(modifyingSquares, row, col) {
         var touchingSquares = [];
-
         var rows = [];
         var cols = [];
 
@@ -34,7 +32,6 @@
         if (row < maxRowNum - 1)
             rows.push(row + 1);
 
-
         if (col > 0)
             cols.push(col - 1);
 
@@ -44,31 +41,22 @@
             cols.push(col + 1);
 
         for (var c = 0; c < rows.length; c++) {
-
             var currentrow = rows[c];
 
             for (var r = 0; r < cols.length; r++) {
-
                 var currentcol = cols[r];
+                var touchingSquare = modifyingSquares[currentrow][currentcol];
 
-                // if (row != currentrow && col != currentcol) {
-                    var touchingSquare = squares[currentrow][currentcol];
-
-                    /*touchingSquares.push(touchingSquare);*/
-
-                    if (touchingSquare.currentState === State.GREEN) {
-                        touchingSquare.currentState = State.RED;
-                        touchingSquare.animations.play(touchingSquare.currentState);
-                    } else {
-                        touchingSquare.currentState = State.GREEN;
-                        touchingSquare.animations.play(touchingSquare.currentState);
-                    }
-                // }
-
+                if (touchingSquare.currentState === State.GREEN) {
+                    touchingSquare.currentState = State.RED;
+                    touchingSquare.animations.play(touchingSquare.currentState);
+                } else {
+                    touchingSquare.currentState = State.GREEN;
+                    touchingSquare.animations.play(touchingSquare.currentState);
+                }
             }
         }
     };
-
 
     var createSquare = function(x, y, row, col) {
         var currentState;
@@ -90,34 +78,17 @@
 
             square.inputEnabled = true;
             square.events.onInputDown.add(function() {
-                console.log("Inner Width:" + window.innerWidth);
-                console.log("Inner Height:" + window.innerHeight);
-
-
-                // var touchingSquares = toggleSquares(row, col);
-
-                // if (currentState === State.GREEN) {
-                //     currentState = State.RED;
-                //     square.animations.play(currentState);
-                // } else {
-                //     currentState = State.GREEN;
-                //     square.animations.play(currentState);
-                // }
-
-                toggleSquares(row, col);
+                toggleSquares(squares, row, col);
             });
 
             return square;
         }();
-        };
-
-
+    };
 
     var mainState = {
 
         preload: function() {
             game.stage.backgroundrowor = '#71c5cf';
-
             game.load.spritesheet('square', 'img/sprites/square.png', 32, 32);
         },
 
@@ -141,28 +112,14 @@
                     point.x = (calculatedSquareWidth + padding) * t;
                     var square = createSquare(point.x, point.y, i, t);
                     squares[i][t] = square;
-                    // squares.push(square);
                 }
             }
         },
 
         update: function() {
-            // Updating width and height
-            // TODO need to also update position
-            // calculatedSquareWidth = window.innerWidth / maxColNum;
-            // calculatedSquareHeight = window.innerHeight / maxRowNum;
-
-            /*            squares.forEach(function(square) {
-                            //  Set the scale of the sprite to the random value
-                            square.scale.setTo(calculatedSquareWidth / 32, calculatedSquareHeight / 32);
-                        });*/
-
             for (var i = 0; i < maxRowNum; i++) {
-
                 for (var t = 0; t < maxColNum; t++) {
-
                     var square = squares[i][t];
-
                     square.scale.setTo(calculatedSquareWidth / 32, calculatedSquareHeight / 32);
                 }
             }
